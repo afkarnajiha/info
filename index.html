@@ -1,0 +1,1774 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>دليل المساجد</title>
+<style>
+
+/* =====================================================
+   الألوان
+===================================================== */
+
+:root{
+  --main:#454543;
+  --gold:#b39b67;
+  --bg:#f5f4f0;
+  --card:#ffffff;
+  --card-soft:#f0eee8;
+  --text:#454543;
+  --muted:#77766f;
+  --border:#dfddd5;
+  --shadow:0 6px 20px rgba(69,69,67,.07);
+}
+
+
+/* =====================================================
+   الوضع الداكن
+===================================================== */
+
+body.dark{
+  --bg:#1b1b1a;
+  --card:#292927;
+  --card-soft:#333330;
+  --text:#f0eee7;
+  --muted:#b5b2a9;
+  --border:#41413e;
+  --shadow:0 7px 24px rgba(0,0,0,.25);
+}
+
+
+/* =====================================================
+   الأساس
+===================================================== */
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:
+    Tahoma,
+    Arial,
+    sans-serif;
+  font-size:15px;
+  transition:
+    background .2s ease,
+    color .2s ease;
+}
+
+button,
+input{
+  font-family:inherit;
+}
+
+.container{
+  width:min(1050px,100%);
+  margin:auto;
+  padding:20px 16px 45px;
+}
+
+
+/* =====================================================
+   الهيدر
+===================================================== */
+
+.hero{
+  position:relative;
+  background:var(--main);
+  color:#fff;
+  border-radius:20px;
+  padding:27px 28px 25px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+
+.hero::after{
+  content:"";
+  position:absolute;
+  width:210px;
+  height:210px;
+  border-radius:50%;
+  background:var(--gold);
+  opacity:.12;
+  left:-80px;
+  top:-90px;
+  pointer-events:none;
+}
+
+.hero-content{
+  position:relative;
+  z-index:1;
+}
+
+
+/* =====================================================
+   زر الوضع
+===================================================== */
+
+.theme-toggle{
+  position:absolute;
+  top:17px;
+  left:17px;
+  width:40px;
+  height:40px;
+  padding:0;
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:11px;
+  background:rgba(255,255,255,.08);
+  color:#fff;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  z-index:10;
+  -webkit-tap-highlight-color:transparent;
+  transition:
+    background .18s ease,
+    color .18s ease,
+    transform .18s ease;
+}
+
+.theme-toggle:hover{
+  background:var(--gold);
+  color:var(--main);
+}
+
+.theme-toggle:active{
+  transform:scale(.94);
+}
+
+
+/* =====================================================
+   عنوان الهيدر
+===================================================== */
+
+.badge{
+  display:inline-block;
+  padding:5px 11px;
+  border-radius:20px;
+  border:1px solid rgba(179,155,103,.55);
+  background:rgba(179,155,103,.12);
+  color:var(--gold);
+  font-size:12px;
+  margin-bottom:11px;
+}
+
+h1{
+  margin:0;
+  font-size:clamp(30px,5vw,43px);
+  line-height:1.25;
+  font-weight:800;
+}
+
+.hero-sub{
+  margin:8px 0 0;
+  max-width:650px;
+  color:#d7d5ce;
+  font-size:14px;
+  line-height:1.8;
+}
+
+
+/* =====================================================
+   الإحصائيات
+===================================================== */
+
+.stats{
+  display:flex;
+  gap:9px;
+  margin-top:18px;
+}
+
+.stat{
+  min-width:125px;
+  padding:9px 14px;
+  border-radius:12px;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.1);
+}
+
+.stat-number{
+  color:var(--gold);
+  font-size:20px;
+  font-weight:800;
+  line-height:1.3;
+}
+
+.stat-label{
+  margin-top:1px;
+  color:#c9c7c0;
+  font-size:11px;
+}
+
+
+/* =====================================================
+   البحث
+===================================================== */
+
+.search-box{
+  margin-top:16px;
+}
+
+.search{
+  width:100%;
+  height:52px;
+  border:1px solid rgba(179,155,103,.4);
+  border-radius:13px;
+  background:#fff;
+  color:#454543;
+  outline:none;
+  padding:0 16px;
+  font-size:15px;
+  transition:.18s;
+}
+
+.search::placeholder{
+  color:#96948d;
+}
+
+.search:focus{
+  border-color:var(--gold);
+  box-shadow:
+    0 0 0 3px
+    rgba(179,155,103,.12);
+}
+
+
+/* =====================================================
+   العداد
+===================================================== */
+
+.count{
+  margin:18px 3px 11px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.count strong{
+  color:var(--gold);
+}
+
+
+/* =====================================================
+   البطاقات
+===================================================== */
+
+.grid{
+  display:grid;
+  grid-template-columns:
+    repeat(3,minmax(0,1fr));
+  gap:13px;
+}
+
+.card{
+  position:relative;
+  min-width:0;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:17px;
+  cursor:pointer;
+  box-shadow:
+    0 2px 8px rgba(69,69,67,.03);
+  transition:
+    transform .18s ease,
+    border-color .18s ease,
+    box-shadow .18s ease;
+  overflow:hidden;
+}
+
+.card:hover{
+  transform:translateY(-3px);
+  border-color:var(--gold);
+  box-shadow:var(--shadow);
+}
+
+
+/* الرقم ثابت في الزاوية */
+
+.card-number{
+  position:absolute;
+  left:14px;
+  top:14px;
+  width:30px;
+  height:30px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:9px;
+  background:var(--main);
+  color:var(--gold);
+  font-size:11px;
+  font-weight:800;
+}
+
+
+/* الاسم لا يتأثر بالرقم */
+
+.name{
+  padding-left:42px;
+  min-height:30px;
+  color:var(--text);
+  font-size:16px;
+  font-weight:800;
+  line-height:1.55;
+  overflow-wrap:anywhere;
+}
+
+.card-address{
+  margin-top:11px;
+  padding-top:10px;
+  border-top:1px solid var(--border);
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.7;
+  min-height:30px;
+}
+
+.card-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-top:11px;
+}
+
+.city{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.open-text{
+  color:var(--gold);
+  font-size:11px;
+  font-weight:700;
+}
+
+
+/* =====================================================
+   صفحة التفاصيل
+===================================================== */
+
+.detail{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+}
+
+.detail-head{
+  background:var(--main);
+  color:#fff;
+  padding:23px 25px;
+}
+
+.back{
+  display:inline-flex;
+  align-items:center;
+  padding:8px 12px;
+  margin-bottom:16px;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:9px;
+  background:rgba(255,255,255,.07);
+  color:#fff;
+  font-size:12px;
+  cursor:pointer;
+  transition:.18s;
+}
+
+.back:hover{
+  background:var(--gold);
+  color:var(--main);
+}
+
+.detail-title{
+  margin:0;
+  font-size:28px;
+  line-height:1.4;
+  font-weight:800;
+}
+
+.detail-location{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:6px;
+  color:var(--gold);
+  font-size:13px;
+}
+
+.location-separator{
+  opacity:.45;
+}
+
+
+/* =====================================================
+   معلومات التفاصيل
+===================================================== */
+
+.detail-body{
+  padding:4px 25px 5px;
+}
+
+.info-row{
+  display:grid;
+  grid-template-columns:150px minmax(0,1fr);
+  align-items:start;
+  gap:18px;
+  padding:13px 0;
+  border-bottom:1px solid var(--border);
+}
+
+.info-row:last-child{
+  border-bottom:0;
+}
+
+.label{
+  color:var(--gold);
+  font-size:12px;
+  font-weight:800;
+  line-height:1.7;
+}
+
+.value{
+  color:var(--text);
+  font-size:14px;
+  line-height:1.7;
+  word-break:break-word;
+}
+
+
+/* =====================================================
+   أزرار التواصل
+===================================================== */
+
+.actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  padding:10px 25px 23px;
+}
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:42px;
+  padding:8px 15px;
+  border-radius:10px;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:800;
+  transition:.18s;
+}
+
+.btn:hover{
+  transform:translateY(-2px);
+}
+
+.maps{
+  background:var(--main);
+  color:#fff;
+}
+
+.whatsapp{
+  background:var(--card-soft);
+  color:var(--text);
+  border:1px solid var(--border);
+}
+
+.call{
+  background:var(--gold);
+  color:var(--main);
+}
+
+
+/* =====================================================
+   فارغ / خطأ
+===================================================== */
+
+.empty{
+  grid-column:1/-1;
+  padding:40px 20px;
+  text-align:center;
+  background:var(--card);
+  border:1px dashed var(--border);
+  border-radius:15px;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.error{
+  grid-column:1/-1;
+  padding:20px;
+  text-align:center;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:15px;
+  color:var(--muted);
+  font-size:13px;
+}
+
+
+/* =====================================================
+   الفوتر
+===================================================== */
+
+.footer{
+  margin-top:25px;
+  text-align:center;
+  color:var(--muted);
+  opacity:.7;
+  font-size:10px;
+}
+
+
+/* =====================================================
+   إخفاء
+===================================================== */
+
+.hidden{
+  display:none !important;
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media(max-width:850px){
+  .grid{
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+  }
+
+}
+
+/*made by Rayan*/
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:600px){
+  .container{
+    padding:
+      12px
+      11px
+      35px;
+  }
+
+  .hero{
+    padding:
+      23px
+      18px
+      20px;
+    border-radius:18px;
+  }
+
+  .theme-toggle{
+    top:13px;
+    left:13px;
+    width:38px;
+    height:38px;
+  }
+
+  h1{
+    font-size:31px;
+    padding-left:42px;
+  }
+
+  .hero-sub{
+    font-size:13px;
+    line-height:1.8;
+  }
+
+  .stats{
+    gap:7px;
+    margin-top:15px;
+  }
+
+  .stat{
+    min-width:0;
+    flex:1;
+    padding:
+      8px
+      11px;
+  }
+
+  .stat-number{
+    font-size:18px;
+  }
+
+  .stat-label{
+    font-size:10px;
+  }
+
+  .search{
+    height:50px;
+
+    font-size:14px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+
+    gap:10px;
+  }
+
+  .card{
+    padding:16px;
+  }
+
+  .name{
+    font-size:16px;
+  }
+
+  .detail{
+    border-radius:18px;
+  }
+
+  .detail-head{
+    padding:
+      20px
+      18px;
+  }
+
+  .detail-title{
+    font-size:25px;
+  }
+
+  .detail-body{
+    padding:
+      3px
+      18px;
+  }
+
+  .info-row{
+    grid-template-columns:
+      1fr;
+    gap:2px;
+
+    padding:
+      11px
+      0;
+  }
+
+  .label{
+    font-size:11px;
+  }
+
+  .value{
+    font-size:14px;
+
+    line-height:1.65;
+  }
+
+  .actions{
+    padding:
+      8px
+      18px
+      20px;
+  }
+
+  .btn{
+    flex:1;
+    min-width:110px;
+    padding:
+      8px
+      11px;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+
+<!-- ==================================================
+     القائمة
+================================================== -->
+
+<section id="list">
+
+  <div class="hero">
+
+    <button
+      id="themeToggle"
+      class="theme-toggle"
+      type="button"
+      aria-label="تغيير الوضع"
+      title="تغيير الوضع"
+    ></button>
+
+    <div class="hero-content">
+
+      <div class="badge">
+        دليل المساجد والجهات التي تستقبل مياه الشرب
+      </div>
+
+      <h1>
+        دليل المساجد والجهات التي تستقبل مياه الشرب
+      </h1>
+
+      <p class="hero-sub">
+        ابحث عن المسجد او الجهة للوصول إلى معلوماتها
+        وبيانات التواصل وموقعها.
+      </p>
+
+      <div class="stats">
+
+        <div class="stat">
+          <div
+            id="totalNumber"
+            class="stat-number"
+          >
+            —
+          </div>
+          <div class="stat-label">
+            إجمالي المساجد والجهات
+          </div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-number">
+            مكة
+          </div>
+          <div class="stat-label">
+            المدينة
+          </div>
+        </div>
+
+      </div>
+
+      <div class="search-box">
+        <input
+          id="search"
+          class="search"
+          type="search"
+          autocomplete="off"
+          placeholder="ابحث باسم المسجد أو الجهة..."
+        >
+      </div>
+
+    </div>
+  </div>
+
+  <div
+    id="count"
+    class="count"
+  ></div>
+
+  <div
+    id="cards"
+    class="grid"
+  ></div>
+
+  <div class="footer">
+    دليل المساجد والجهات
+  </div>
+</section>
+
+
+
+<!-- ==================================================
+     التفاصيل
+================================================== -->
+
+<section
+  id="detail"
+  class="detail hidden"
+></section>
+
+</div>
+
+
+<script>
+
+
+/* =====================================================
+   البيانات
+===================================================== */
+
+let data = [];
+
+
+/* =====================================================
+   الرابط
+===================================================== */
+
+function cleanUrl(value){
+  if(!value){
+    return "";
+  }
+
+  const str =
+    String(value).trim();
+
+  const markdown =
+    str.match(
+      /\]\((https?:\/\/[^)]+)\)/i
+    );
+
+  if(markdown){
+    return markdown[1].trim();
+  }
+
+  const direct =
+    str.match(
+      /https?:\/\/[^\s)\]]+/i
+    );
+
+  if(direct){
+    return direct[0].trim();
+  }
+
+  return "";
+}
+
+
+/* =====================================================
+   رقم الجوال
+===================================================== */
+
+function cleanPhone(value){
+  if(!value){
+    return "";
+  }
+
+  let phone =
+    String(value)
+      .replace(/[^\d]/g,"");
+
+  if(
+    phone.startsWith("05")
+  ){
+    phone =
+      "966" +
+      phone.substring(1);
+  }
+  else if(
+    phone.startsWith("5") &&
+    phone.length === 9
+  ){
+    phone =
+      "966" +
+      phone;
+  }
+
+  return phone;
+}
+
+/*made by Rayan*/
+
+/* =====================================================
+   الحصول على الجوال
+===================================================== */
+
+function getPhone(x){
+  if(x.phone){
+    const phone =
+      cleanPhone(x.phone);
+    if(phone){
+      return phone;
+    }
+  }
+
+  if(!x.all){
+    return "";
+  }
+
+  for(
+    const [key,value]
+    of Object.entries(x.all)
+  ){
+    const k =
+      String(key).toLowerCase();
+
+    if(
+      k.includes("جوال") ||
+      k.includes("هاتف") ||
+      k.includes("رقم") ||
+      k.includes("phone") ||
+      k.includes("mobile")
+    ){
+      const phone =
+        cleanPhone(value);
+
+      if(phone){
+        return phone;
+      }
+
+    }
+
+  }
+
+  return "";
+}
+
+
+/* =====================================================
+   واتساب
+===================================================== */
+
+function getWhatsapp(x){
+  if(x.whatsapp){
+    const url =
+      cleanUrl(x.whatsapp);
+    if(url){
+      return url;
+    }
+  }
+
+  if(x.all){
+    for(
+      const [key,value]
+      of Object.entries(x.all)
+    ){
+      const k =
+        String(key).toLowerCase();
+
+      if(
+        k.includes("واتس") ||
+        k.includes("whatsapp")
+      ){
+        const url =
+          cleanUrl(value);
+        if(url){
+          return url;
+        }
+      }
+    }
+  }
+
+  const phone =
+    getPhone(x);
+
+  if(phone){
+    return (
+      "https://wa.me/" +
+      phone
+    );
+  }
+
+  return "";
+}
+
+
+/* =====================================================
+   الخرائط
+===================================================== */
+
+function getMap(x){
+  if(x.map){
+    const url =
+      cleanUrl(x.map);
+    if(url){
+      return url;
+    }
+  }
+
+  if(x.all){
+    for(
+      const [key,value]
+      of Object.entries(x.all)
+    ){
+      const k =
+        String(key).toLowerCase();
+
+      if(
+        k.includes("خرائط") ||
+        k.includes("google maps") ||
+        k.includes("maps") ||
+        k.includes("موقع المسجد")
+      ){
+        const url =
+          cleanUrl(value);
+
+        if(url){
+          return url;
+        }
+      }
+    }
+  }
+
+  return "";
+}
+
+
+/* =====================================================
+   حماية HTML
+===================================================== */
+
+function esc(value){
+  if(
+    value === null ||
+    value === undefined
+  ){
+    return "";
+  }
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+
+/* =====================================================
+   التحقق من البيانات
+===================================================== */
+
+function hasRealData(x){
+  if(
+    !x ||
+    !x.entity
+  ){
+    return false;
+  }
+
+  const name =
+    String(x.entity).trim();
+
+  if(!name){
+    return false;
+  }
+
+  if(
+    /^\d+$/.test(name)
+  ){
+    return false;
+  }
+
+  return true;
+}
+
+
+/* =====================================================
+   المدينة
+===================================================== */
+
+function getCity(x){
+  if(!x.all){
+    return "";
+  }
+
+  for(
+    const [key,value]
+    of Object.entries(x.all)
+  ){
+    const k =
+      String(key).toLowerCase();
+
+    if(
+      k.includes("المدينة") ||
+      k === "مدينة" ||
+      k.includes("city")
+    ){
+      return value || "";
+
+    }
+  }
+
+  return "";
+}
+
+
+/* =====================================================
+   الحي
+===================================================== */
+
+function getDistrict(x){
+  if(!x.all){
+    return "";
+  }
+
+  for(
+    const [key,value]
+    of Object.entries(x.all)
+  ){
+    const k =
+      String(key).toLowerCase();
+
+    if(
+      k === "الحي" ||
+      k.includes("الحي")
+    ){
+      return value || "";
+    }
+  }
+
+  return "";
+}
+
+/*made by Rayan*/
+
+/* =====================================================
+   العنوان
+===================================================== */
+
+function getAddress(x){
+  if(x.address){
+    return x.address;
+  }
+
+  if(!x.all){
+    return "";
+  }
+
+  for(
+    const [key,value]
+    of Object.entries(x.all)
+  ){
+    const k =
+      String(key).toLowerCase();
+
+    if(
+      k.includes("عنوان") ||
+      k.includes("address")
+    ){
+      return value || "";
+    }
+  }
+
+  return "";
+}
+
+
+/* =====================================================
+   عرض القائمة
+===================================================== */
+
+function render(){
+  const cards =
+    document.getElementById("cards");
+
+  const count =
+    document.getElementById("count");
+
+  const total =
+    document.getElementById("totalNumber");
+
+  const search =
+    document.getElementById("search");
+
+  const realData =
+    data.filter(hasRealData);
+
+  total.textContent =
+    realData.length;
+
+  const query =
+    String(search.value || "")
+      .trim()
+      .toLowerCase();
+
+  const filtered =
+    realData.filter(x => {
+      const name =
+        String(x.entity || "")
+          .toLowerCase();
+
+      return name.includes(query);
+    });
+
+  count.innerHTML =
+    `عرض <strong>${filtered.length}</strong> من أصل <strong>${realData.length}</strong> جهة`;
+
+  if(!filtered.length){
+    cards.innerHTML = `
+      <div class="empty">
+        لا توجد جهة مطابقة للبحث.
+      </div>
+    `;
+    return;
+  }
+
+
+  cards.innerHTML =
+    filtered.map(x => {
+      const index =
+        data.indexOf(x);
+
+      const address =
+        getAddress(x);
+
+      const city =
+        getCity(x);
+
+      return `
+        <article
+          class="card"
+          onclick="show(${index})"
+          tabindex="0"
+          onkeydown="
+            if(event.key==='Enter'){
+              show(${index});
+            }
+          "
+        >
+
+          <div class="card-number">
+            ${String(
+              index + 1
+            ).padStart(2,"0")}
+          </div>
+
+          <div class="name">
+            ${esc(x.entity)}
+          </div>
+
+          <div class="card-address">
+            ${
+              address
+              ?
+              esc(address)
+              :
+              "لا يوجد عنوان مسجل"
+            }
+          </div>
+
+          <div class="card-footer">
+            <span class="city">
+              ${esc(
+                city || "مكة"
+              )}
+            </span>
+
+            <span class="open-text">
+              عرض التفاصيل ←
+            </span>
+          </div>
+
+        </article>
+      `;
+    }).join("");
+}
+
+/*made by Rayan*/
+
+/* =====================================================
+   التفاصيل
+===================================================== */
+
+function show(index){
+  const x =
+    data[index];
+
+  if(
+    !x ||
+    !hasRealData(x)
+  ){
+    return;
+  }
+
+  const list =
+    document.getElementById("list");
+
+  const detail =
+    document.getElementById("detail");
+
+  const city =
+    getCity(x);
+
+  const district =
+    getDistrict(x);
+
+  const address =
+    getAddress(x);
+
+  const phone =
+    getPhone(x);
+
+  const whatsapp =
+    getWhatsapp(x);
+
+  const map =
+    getMap(x);
+
+  let rows = "";
+
+
+  /*
+    نرتب المعلومات يدويًا
+    بدل عرض أعمدة Excel كلها.
+  */
+
+  if(address){
+    rows += `
+      <div class="info-row">
+        <div class="label">
+          العنوان
+        </div>
+        <div class="value">
+          ${esc(address)}
+        </div>
+      </div>
+    `;
+  }
+
+
+  /*
+    المسؤول والصفة
+  */
+
+  let responsible = "";
+  let role = "";
+
+  if(x.all){
+    for(
+      const [key,value]
+      of Object.entries(x.all)
+    ){
+      const k =
+        String(key).toLowerCase();
+
+      if(
+        k.includes("اسم مسؤول") ||
+        k === "المسؤول" ||
+        k.includes("اسم المسؤول")
+      ){
+        responsible =
+          value || "";
+
+      }
+
+      if(
+        k === "صفته" ||
+        k.includes("صفة")
+      ){
+        role =
+          value || "";
+      }
+    }
+  }
+
+
+  if(responsible){
+    rows += `
+      <div class="info-row">
+        <div class="label">
+          اسم المسؤول
+        </div>
+        <div class="value">
+          ${esc(responsible)}
+        </div>
+      </div>
+    `;
+  }
+
+  if(role){
+    rows += `
+      <div class="info-row">
+        <div class="label">
+          صفة المسؤول
+        </div>
+        <div class="value">
+          ${esc(role)}
+        </div>
+      </div>
+    `;
+  }
+
+  if(phone){
+    rows += `
+      <div class="info-row">
+        <div class="label">
+          رقم الجوال
+        </div>
+        <div class="value" dir="ltr">
+          ${esc(
+            "+" + phone
+          )}
+        </div>
+      </div>
+    `;
+  }
+
+  detail.innerHTML = `
+    <div class="detail-head">
+      <button
+        class="back"
+        type="button"
+        onclick="back()"
+      >
+        → العودة
+      </button>
+
+      <h2 class="detail-title">
+        ${esc(x.entity)}
+      </h2>
+
+      <div class="detail-location">
+
+        ${
+          city
+          ?
+          `<span>${esc(city)}</span>`
+          :
+          ""
+        }
+
+        ${
+          city && district
+          ?
+          `<span class="location-separator">•</span>`
+          :
+          ""
+        }
+
+        ${
+          district
+          ?
+          `<span>${esc(district)}</span>`
+          :
+          ""
+        }
+
+      </div>
+
+    </div>
+
+    <div class="detail-body">
+
+      ${
+        rows
+        ||
+        `
+          <div class="empty">
+            لا توجد معلومات إضافية.
+          </div>
+        `
+      }
+
+    </div>
+
+    <div class="actions">
+
+      ${
+        map
+        ?
+        `
+          <a
+            class="btn maps"
+            href="${esc(map)}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            فتح الموقع
+          </a>
+        `
+        :
+        ""
+      }
+
+      ${
+        whatsapp
+        ?
+        `
+          <a
+            class="btn whatsapp"
+            href="${esc(whatsapp)}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            واتساب
+          </a>
+        `
+        :
+        ""
+      }
+
+      ${
+        phone
+        ?
+        `
+          <a
+            class="btn call"
+            href="tel:+${esc(phone)}"
+          >
+            اتصال
+          </a>
+        `
+        :
+        ""
+      }
+
+    </div>
+  `;
+
+  list.classList.add("hidden");
+  detail.classList.remove("hidden");
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+
+/* =====================================================
+   العودة
+===================================================== */
+
+function back(){
+  document
+    .getElementById("detail")
+    .classList.add("hidden");
+
+  document
+    .getElementById("list")
+    .classList.remove("hidden");
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+/*made by Rayan*/
+
+/* =====================================================
+   البحث
+===================================================== */
+
+document
+  .getElementById("search")
+  .addEventListener(
+    "input",
+    render
+  );
+
+  
+
+/* =====================================================
+   الوضع الداكن
+===================================================== */
+
+const themeButton =
+  document.getElementById(
+    "themeToggle"
+  );
+
+function getInitialTheme(){
+  const saved =
+    localStorage.getItem("theme");
+
+
+  /*
+    إذا المستخدم اختار سابقًا:
+    نحترم اختياره.
+  */
+  if(saved === "dark"){
+    return "dark";
+  }
+
+  if(saved === "light"){
+    return "light";
+  }
+
+  /*
+    أول زيارة:
+    نقرأ إعداد الجهاز.
+  */
+
+  if(
+    window.matchMedia &&
+    window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches
+  ){
+    return "dark";
+  }
+
+  return "light";
+}
+
+function applyTheme(theme){
+  document.body.classList.toggle(
+    "dark",
+    theme === "dark"
+  );
+
+  themeButton.textContent =
+    theme === "dark"
+    ? "☀"
+    : "☾";
+
+  themeButton.setAttribute(
+    "aria-label",
+    theme === "dark"
+    ? "تفعيل الوضع الفاتح"
+    : "تفعيل الوضع الداكن"
+  );
+
+  themeButton.setAttribute(
+    "title",
+    theme === "dark"
+    ? "الوضع الفاتح"
+    : "الوضع الداكن"
+  );
+}
+
+function toggleTheme(){
+  const currentlyDark =
+    document.body.classList.contains(
+      "dark"
+    );
+
+  const newTheme =
+    currentlyDark
+    ? "light"
+    : "dark";
+
+  localStorage.setItem(
+    "theme",
+    newTheme
+  );
+
+  applyTheme(
+    newTheme
+  );
+}
+
+
+/*
+  الزر مربوط هنا بشكل مباشر
+*/
+themeButton.addEventListener(
+  "click",
+  toggleTheme
+);
+
+
+/*
+  تشغيل الوضع الأول
+*/
+
+applyTheme(
+  getInitialTheme()
+);
+
+
+/*
+  إذا ما عنده اختيار محفوظ،
+  والجهاز تغير وضعه لاحقًا،
+  يتغير الموقع معه.
+*/
+
+if(
+  !localStorage.getItem("theme") &&
+  window.matchMedia
+){
+  const media =
+    window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    );
+
+  media.addEventListener(
+    "change",
+    event => {
+      applyTheme(
+        event.matches
+        ? "dark"
+        : "light"
+      );
+    }
+  );
+}
+
+/*made by Rayan*/
+
+/* =====================================================
+   تحميل البيانات
+===================================================== */
+
+async function loadData(){
+  try{
+    const response =
+      await fetch(
+        "data.json",
+        {
+          cache:"no-store"
+        }
+      );
+
+    if(!response.ok){
+      throw new Error(
+        "تعذر تحميل data.json"
+      );
+    }
+
+    const json =
+      await response.json();
+
+    if(
+      !Array.isArray(json)
+    ){
+      throw new Error(
+        "صيغة data.json غير صحيحة"
+      );
+    }
+
+    data = json;
+
+    render();
+  }
+
+  catch(error){
+    console.error(error);
+
+    document
+      .getElementById(
+        "totalNumber"
+      )
+      .textContent = "—";
+
+    document
+      .getElementById(
+        "count"
+      )
+      .textContent = "";
+
+    document
+      .getElementById(
+        "cards"
+      )
+      .innerHTML = `
+        <div class="error">
+          تعذر تحميل بيانات الدليل.
+          <br><br>
+          تأكد أن ملف
+          <strong>data.json</strong>
+          موجود بجانب
+          <strong>index.html</strong>.
+        </div>
+      `;
+  }
+}
+
+
+/* =====================================================
+   تشغيل
+===================================================== */
+
+loadData();
+</script>
+</body>
+</html>
